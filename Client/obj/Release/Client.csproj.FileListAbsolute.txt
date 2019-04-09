@@ -1,0 +1,10 @@
+D:\Учеба\C#\coop\Client\Client\bin\Release\Client.exe.config
+D:\Учеба\C#\coop\Client\Client\bin\Release\Client.exe
+D:\Учеба\C#\coop\Client\Client\bin\Release\Client.pdb
+D:\Учеба\C#\coop\Client\Client\obj\Release\Client.csprojAssemblyReference.cache
+D:\Учеба\C#\coop\Client\Client\obj\Release\Client.Form1.resources
+D:\Учеба\C#\coop\Client\Client\obj\Release\Client.Properties.Resources.resources
+D:\Учеба\C#\coop\Client\Client\obj\Release\Client.csproj.GenerateResource.cache
+D:\Учеба\C#\coop\Client\Client\obj\Release\Client.csproj.CoreCompileInputs.cache
+D:\Учеба\C#\coop\Client\Client\obj\Release\Client.exe
+D:\Учеба\C#\coop\Client\Client\obj\Release\Client.pdb
