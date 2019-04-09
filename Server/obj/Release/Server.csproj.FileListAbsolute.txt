@@ -1,0 +1,10 @@
+D:\Учеба\C#\coop\Server\Server\bin\Release\Server.exe.config
+D:\Учеба\C#\coop\Server\Server\bin\Release\Server.exe
+D:\Учеба\C#\coop\Server\Server\bin\Release\Server.pdb
+D:\Учеба\C#\coop\Server\Server\obj\Release\Server.csprojAssemblyReference.cache
+D:\Учеба\C#\coop\Server\Server\obj\Release\Server.Form1.resources
+D:\Учеба\C#\coop\Server\Server\obj\Release\Server.Properties.Resources.resources
+D:\Учеба\C#\coop\Server\Server\obj\Release\Server.csproj.GenerateResource.cache
+D:\Учеба\C#\coop\Server\Server\obj\Release\Server.csproj.CoreCompileInputs.cache
+D:\Учеба\C#\coop\Server\Server\obj\Release\Server.exe
+D:\Учеба\C#\coop\Server\Server\obj\Release\Server.pdb
