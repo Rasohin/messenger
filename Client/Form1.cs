@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
+
 namespace Client
 {
     public partial class Form1 : Form
@@ -74,11 +75,19 @@ namespace Client
             thread = new Thread(ReceiveText);
         }
 
+        private void ChangeServerName()
+        {
+            Form2 ServerName = new Form2();
+            ServerName.ShowDialog();
+
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
             try
             {
-                socket.Connect("localhost", 11000);//94.251.48.12
+                ChangeServerName();
+                socket.Connect(ConnectionServer.servername, 11000);//94.251.48.12
                 byte[] buffer = Encoding.UTF8.GetBytes("Соединение установлено!");
                 socket.Send(buffer);
                 thread.Start();
@@ -86,7 +95,7 @@ namespace Client
             }
             catch
             {
-                MessageBox.Show("Упс, пользователь отключился");
+                MessageBox.Show("Упс, не удалось установить соединение");
             }
         }
 

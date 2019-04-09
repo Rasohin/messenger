@@ -40,6 +40,8 @@
             this.button3 = new System.Windows.Forms.Button();
             this.SendButton = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.TextBoxUsersOnline = new System.Windows.Forms.RichTextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // richTextBox2
@@ -84,7 +86,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(12, 33);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(776, 316);
+            this.richTextBox1.Size = new System.Drawing.Size(587, 316);
             this.richTextBox1.TabIndex = 7;
             this.richTextBox1.Text = "";
             // 
@@ -95,7 +97,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(612, 4);
+            this.button3.Location = new System.Drawing.Point(423, 4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(95, 23);
             this.button3.TabIndex = 8;
@@ -117,7 +119,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(713, 4);
+            this.button4.Location = new System.Drawing.Point(524, 4);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 10;
@@ -125,11 +127,31 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // TextBoxUsersOnline
+            // 
+            this.TextBoxUsersOnline.BackColor = System.Drawing.SystemColors.Control;
+            this.TextBoxUsersOnline.Location = new System.Drawing.Point(608, 33);
+            this.TextBoxUsersOnline.Name = "TextBoxUsersOnline";
+            this.TextBoxUsersOnline.Size = new System.Drawing.Size(180, 316);
+            this.TextBoxUsersOnline.TabIndex = 11;
+            this.TextBoxUsersOnline.Text = "";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(605, 14);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(119, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Пользователи онлайн";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.TextBoxUsersOnline);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.SendButton);
             this.Controls.Add(this.button3);
@@ -159,6 +181,8 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button SendButton;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.RichTextBox TextBoxUsersOnline;
+        private System.Windows.Forms.Label label2;
     }
 }
 

@@ -8,3 +8,14 @@ C:\Users\Данил\source\repos\Client\Client\obj\Debug\Client.csproj.CoreCompi
 C:\Users\Данил\source\repos\Client\Client\obj\Debug\Client.exe
 C:\Users\Данил\source\repos\Client\Client\obj\Debug\Client.pdb
 C:\Users\Данил\source\repos\Client\Client\obj\Debug\Client.csprojAssemblyReference.cache
+D:\Учеба\C#\coop\messenger\Client\bin\Debug\Client.exe.config
+D:\Учеба\C#\coop\messenger\Client\bin\Debug\Client.exe
+D:\Учеба\C#\coop\messenger\Client\bin\Debug\Client.pdb
+D:\Учеба\C#\coop\messenger\Client\obj\Debug\Client.csprojAssemblyReference.cache
+D:\Учеба\C#\coop\messenger\Client\obj\Debug\Client.Form1.resources
+D:\Учеба\C#\coop\messenger\Client\obj\Debug\Client.Form2.resources
+D:\Учеба\C#\coop\messenger\Client\obj\Debug\Client.Properties.Resources.resources
+D:\Учеба\C#\coop\messenger\Client\obj\Debug\Client.csproj.GenerateResource.cache
+D:\Учеба\C#\coop\messenger\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+D:\Учеба\C#\coop\messenger\Client\obj\Debug\Client.exe
+D:\Учеба\C#\coop\messenger\Client\obj\Debug\Client.pdb
