@@ -8,3 +8,12 @@ C:\Users\Данил\source\repos\Server\Server\obj\Debug\Server.csproj.GenerateR
 C:\Users\Данил\source\repos\Server\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
 C:\Users\Данил\source\repos\Server\Server\obj\Debug\Server.exe
 C:\Users\Данил\source\repos\Server\Server\obj\Debug\Server.pdb
+D:\Учеба\C#\coop\messenger\Server\bin\Debug\Server.exe.config
+D:\Учеба\C#\coop\messenger\Server\bin\Debug\Server.exe
+D:\Учеба\C#\coop\messenger\Server\bin\Debug\Server.pdb
+D:\Учеба\C#\coop\messenger\Server\obj\Debug\Server.Form1.resources
+D:\Учеба\C#\coop\messenger\Server\obj\Debug\Server.Properties.Resources.resources
+D:\Учеба\C#\coop\messenger\Server\obj\Debug\Server.csproj.GenerateResource.cache
+D:\Учеба\C#\coop\messenger\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+D:\Учеба\C#\coop\messenger\Server\obj\Debug\Server.exe
+D:\Учеба\C#\coop\messenger\Server\obj\Debug\Server.pdb

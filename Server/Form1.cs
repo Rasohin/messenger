@@ -14,12 +14,16 @@ namespace Server
 {
     public partial class Form1 : Form
     {
+        Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        Socket client, client1;
+        Thread thread, thread1;
+        bool tru = false;
+       string messag, messag1;
+
         public Form1()
         {
             InitializeComponent();
         }
-        Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        Socket client;
         private void button1_Click(object sender, EventArgs e)
         {
             if (fontDialog1.ShowDialog() == DialogResult.OK)
@@ -45,6 +49,7 @@ namespace Server
                 string message = richTextBox2.Text;
                 byte[] buffer = Encoding.UTF8.GetBytes(message);
                 client.Send(buffer);
+                client1.Send(buffer);
                 Console.ReadLine();
                 richTextBox1.Text += "\nВы: " + richTextBox2.Text;
                 richTextBox2.Text = "";
@@ -55,9 +60,6 @@ namespace Server
             }
 
         }
-        Thread thread;
-        bool tru = false;
-        string messag;
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (tru)
@@ -74,9 +76,40 @@ namespace Server
                 try
                 {
                     byte[] buffer = new byte[1024];
+                    
                     client.Receive(buffer);
+                    
                     tru = true;
-                    messag = Encoding.UTF8.GetString(buffer);
+                    
+                    client1.Send(buffer);
+                }
+                catch
+                {
+                    MessageBox.Show("Пользователь отключился");
+                }
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            thread.Abort();
+            thread1.Abort();
+            Application.Exit();
+        }
+
+        private void ReceiveText1()
+        {
+            while (true)
+            {
+                try
+                {
+                    byte[] buffer1 = new byte[1024];
+
+                    client1.Receive(buffer1);
+
+                    tru = true;
+
+                    client.Send(buffer1);
                 }
                 catch
                 {
@@ -92,9 +125,12 @@ namespace Server
                 socket.Bind(new IPEndPoint(IPAddress.Any, 11000));
                 socket.Listen(5);
                 client = socket.Accept();
+                client1 = socket.Accept();
                 byte[] buffer = Encoding.UTF8.GetBytes("Соединение установлено!");
                 client.Send(buffer);
+                client1.Send(buffer);
                 thread.Start();
+                thread1.Start();
                 timer1.Enabled = true;
             }
             catch
@@ -106,6 +142,9 @@ namespace Server
         private void Form1_Load(object sender, EventArgs e)
         {
             thread = new Thread(ReceiveText);
+            thread1 = new Thread(ReceiveText1);
         }
+
+
     }
 }
