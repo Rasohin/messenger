@@ -10,15 +10,14 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.IO;
+using System.IO.Compression;
 namespace Server
 {
     public partial class Form1 : Form
     {
-        Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        Socket client, client1;
-        Thread thread, thread1;
-        bool tru = false;
-       string messag, messag1;
+        TcpClient client, client1;        
+        string messag=null, messag1=null;
 
         public Form1()
         {
@@ -44,107 +43,80 @@ namespace Server
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string message = richTextBox2.Text;
-                byte[] buffer = Encoding.UTF8.GetBytes(message);
-                client.Send(buffer);
-                client1.Send(buffer);
-                Console.ReadLine();
-                richTextBox1.Text += "\nВы: " + richTextBox2.Text;
-                richTextBox2.Text = "";
-            }
-            catch
-            {
-                MessageBox.Show("Упс, отправка неудалась, возможно пользователь не в сети");
-            }
-
+            string message = richTextBox2.Text;            
+            SendMessage(message, writer);
+            SendMessage(message, writer1);
+            Console.ReadLine();
+            richTextBox1.Text += "\nВы: " + richTextBox2.Text;
+            richTextBox2.Text = "";
         }
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            if (tru)
-            {
-                richTextBox1.Text += "\nСобеседник: " + messag;
-                tru = false;
-            }
-        }
-
-        private void ReceiveText()
-        {
-            while (true)
-            {
-                try
-                {
-                    byte[] buffer = new byte[1024];
-                    
-                    client.Receive(buffer);
-                    
-                    tru = true;
-                    
-                    client1.Send(buffer);
-                }
-                catch
-                {
-                    MessageBox.Show("Пользователь отключился");
-                }
-            }
-        }
-
         private void button4_Click(object sender, EventArgs e)
         {
-            thread.Abort();
-            thread1.Abort();
             Application.Exit();
         }
 
-        private void ReceiveText1()
+        StreamReader reader, reader1;
+        StreamWriter writer, writer1;
+        private void SendMessage(string message, StreamWriter writer)
+        {            
+            //buffer = new char[1024];
+            writer.WriteLine(message);
+            writer.Flush();
+            messag = null;
+            messag1 = null;
+        }
+        char[] buffer = new char[1024];
+        char[] buffer1 = new char[1024];
+        private void Receive()
+        {
+            //int result = reader.Read(buffer, 0, 1024);
+            //int resutl = reader1.Read(buffer1, 0, 1024);     
+            try
+            {
+                messag = reader.ReadLine();
+            }
+            catch { }
+            try
+            {
+                messag1 = reader1.ReadLine();
+            }
+            catch { }
+            //messag1 = new string(buffer1);
+            if (messag != null)
+                SendMessage(messag, writer1);
+            if (messag1 != null)
+                SendMessage(messag1, writer);            
+        }
+        private async void ReceiveText()
         {
             while (true)
             {
-                try
-                {
-                    byte[] buffer1 = new byte[1024];
-
-                    client1.Receive(buffer1);
-
-                    tru = true;
-
-                    client.Send(buffer1);
-                }
-                catch
-                {
-                    MessageBox.Show("Пользователь отключился");
-                }
+                await Task.Run(() => Receive());
             }
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
-            try
+            TcpListener listener = new TcpListener(IPAddress.Any, 11000);
+            listener.Start();
+            client = listener.AcceptTcpClient();
+            client1 = listener.AcceptTcpClient();
+            if (client.Connected && client1.Connected)
             {
-                socket.Bind(new IPEndPoint(IPAddress.Any, 11000));
-                socket.Listen(5);
-                client = socket.Accept();
-                client1 = socket.Accept();
-                byte[] buffer = Encoding.UTF8.GetBytes("Соединение установлено!");
-                client.Send(buffer);
-                client1.Send(buffer);
-                thread.Start();
-                thread1.Start();
-                timer1.Enabled = true;
+                reader = new StreamReader(client.GetStream());
+                reader1 = new StreamReader(client1.GetStream());
+                writer = new StreamWriter(client.GetStream());
+                writer1 = new StreamWriter(client1.GetStream());
+                client.GetStream().ReadTimeout = 50;
+                client1.GetStream().ReadTimeout = 50;
             }
-            catch
-            {
-                MessageBox.Show("Упс, пользователь отключился");
-            }
+            SendMessage("Соединение установлено!", writer);
+            SendMessage("Соединение установлено!", writer1);
+            ReceiveText();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            thread = new Thread(ReceiveText);
-            thread1 = new Thread(ReceiveText1);
+
         }
-
-
     }
 }

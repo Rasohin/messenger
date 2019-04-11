@@ -57,6 +57,7 @@
             this.Controls.Add(this.buttonConn);
             this.Controls.Add(this.textBox1);
             this.Name = "Form2";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Сервер";
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
