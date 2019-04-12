@@ -116,6 +116,7 @@ namespace Client
             try
             {
                 //string message = richTextBox2.Text;
+                //test for git
                 string message = richTextBox2.Text;
                 SendMessage(message, writer);
                 richTextBox1.Text += "\nВы: " + richTextBox2.Text;
