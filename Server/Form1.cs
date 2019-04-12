@@ -43,12 +43,12 @@ namespace Server
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            string message = richTextBox2.Text;            
-            SendMessage(message, writer);
-            SendMessage(message, writer1);
-            Console.ReadLine();
-            richTextBox1.Text += "\nВы: " + richTextBox2.Text;
-            richTextBox2.Text = "";
+            //string message = richTextBox2.Text;            
+            //SendMessage(message, writer);
+            //SendMessage(message, writer1);
+            //Console.ReadLine();
+            //richTextBox1.Text += "\nВы: " + richTextBox2.Text;
+            //richTextBox2.Text = "";
         }
         private void button4_Click(object sender, EventArgs e)
         {

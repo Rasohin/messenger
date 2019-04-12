@@ -47,3 +47,4 @@ C:\Users\Student\Downloads\messenger\messenger\Server\obj\Debug\Server.csproj.Ge
 C:\Users\Student\Downloads\messenger\messenger\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
 C:\Users\Student\Downloads\messenger\messenger\Server\obj\Debug\Server.exe
 C:\Users\Student\Downloads\messenger\messenger\Server\obj\Debug\Server.pdb
+D:\Учеба\C#\coop\messenger\Server\obj\Debug\Server.csprojAssemblyReference.cache

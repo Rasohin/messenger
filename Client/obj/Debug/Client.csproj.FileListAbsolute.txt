@@ -11,7 +11,6 @@ C:\Users\Данил\source\repos\Client\Client\obj\Debug\Client.csprojAssemblyRe
 D:\Учеба\C#\coop\messenger\Client\bin\Debug\Client.exe.config
 D:\Учеба\C#\coop\messenger\Client\bin\Debug\Client.exe
 D:\Учеба\C#\coop\messenger\Client\bin\Debug\Client.pdb
-D:\Учеба\C#\coop\messenger\Client\obj\Debug\Client.csprojAssemblyReference.cache
 D:\Учеба\C#\coop\messenger\Client\obj\Debug\Client.Form1.resources
 D:\Учеба\C#\coop\messenger\Client\obj\Debug\Client.Form2.resources
 D:\Учеба\C#\coop\messenger\Client\obj\Debug\Client.Properties.Resources.resources
