@@ -17,15 +17,97 @@ namespace Client
 {
     public partial class Form1 : Form
     {
-        //Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        TcpClient client;
-        bool tru = false;
-        string messag;
+        private delegate void printer(string data);
+        private delegate void cleaner();
+        printer Printer;
+        cleaner Cleaner;
+        private Socket _serverSocket;
+        private Thread _clientThread;
+        private string _serverHost = ConnectionServer.servername;
+        private const int _serverPort = 11000;
 
         public Form1()
         {
             InitializeComponent();
+            Printer = new printer(print);
+            Cleaner = new cleaner(clearChat);
+            connect();
+            _clientThread = new Thread(listner);
+            _clientThread.IsBackground = true;
+            _clientThread.Start();
         }
+
+        private void listner()
+        {
+            while (_serverSocket.Connected)
+            {
+                byte[] buffer = new byte[8196];
+                int bytesRec = _serverSocket.Receive(buffer);
+                string data = Encoding.UTF8.GetString(buffer, 0, bytesRec);
+                if (data.Contains("#updatechat"))
+                {
+                    UpdateChat(data);
+                    continue;
+                }
+            }
+        }
+        private void connect()
+        {
+            try
+            {
+                _serverSocket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+                _serverSocket.Connect(_serverHost, _serverPort);
+            }
+            catch { print("Сервер недоступен!"); }
+        }
+        private void clearChat()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(Cleaner);
+                return;
+            }
+            richTextBox1.Clear();
+        }
+        private void UpdateChat(string data)
+        {
+            //#updatechat&userName~data|username~data
+            clearChat();
+            string[] messages = data.Split('&')[1].Split('|');
+            int countMessages = messages.Length;
+            if (countMessages <= 0) return;
+            for (int i = 0; i < countMessages; i++)
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(messages[i])) continue;
+                    print(String.Format("[{0}]:{1}.", messages[i].Split('~')[0], messages[i].Split('~')[1]));
+                }
+                catch { continue; }
+            }
+        }
+        private void send(string data)
+        {
+            try
+            {
+                byte[] buffer = Encoding.UTF8.GetBytes(data);
+                int bytesSent = _serverSocket.Send(buffer);
+            }
+            catch { print("Связь с сервером прервалась..."); }
+        }
+        private void print(string msg)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(Printer, msg);
+                return;
+            }
+            if (richTextBox1.Text.Length == 0)
+                richTextBox1.AppendText(msg);
+            else
+                richTextBox1.AppendText(Environment.NewLine + msg);
+        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -44,14 +126,7 @@ namespace Client
                 richTextBox2.ForeColor = colorDialog1.Color;
             }
         }
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            if (tru)
-            {
-                richTextBox1.Text += "\nСобеседник: " + messag;
-                tru = false;
-            }
-        }
+        
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -64,68 +139,29 @@ namespace Client
             ServerName.ShowDialog();
 
         }
-        StreamReader reader;
-        StreamWriter writer;
-        private void SendMessage(string message, StreamWriter writer)
-        {
-            writer.WriteLine(message);
-            writer.Flush();
-        }
-        char[] buffer = new char[1024];
-        private void Receive()
-        {
-            //int result = reader.Read(buffer, 0, 1024);
-            messag = reader.ReadLine();
-            //int resutl = reader1.Read(buffer1, 0, 1024);
-            //messag = new string(buffer);
-            buffer = new char[1024];
-            //messag = new string(buffer1);
-            tru = true;
-        }
-        private async void ReceiveText()
-        {
-            while (true)
-            {
-                await Task.Run(() => Receive());
-            }
-        }
+        
+
         private void button3_Click(object sender, EventArgs e)
         {
-            try
-            {
-                ChangeServerName();
-                client = new TcpClient();
-                client.Connect(ConnectionServer.servername, 11000);//94.251.48.12
-                if (client.Connected)
-                {
-                    reader = new StreamReader(client.GetStream());
-                    writer = new StreamWriter(client.GetStream());
-                }
-                SendMessage("Соединение установлено!", writer);
-                ReceiveText();
-                timer1.Enabled = true;
-            }
-            catch
-            {
-                MessageBox.Show("Упс, не удалось установить соединение");
-            }
+            ChangeServerName();
+            string Name = ConnectionServer.newusername;
+            send("#setname&" + Name);
         }
 
         private void SendButton_Click(object sender, EventArgs e)
         {
+            sendMessage();
+        }
+
+        private void sendMessage()
+        {
             try
             {
-                //string message = richTextBox2.Text;
-                //test for git
-                string message = richTextBox2.Text;
-                SendMessage(message, writer);
-                richTextBox1.Text += "\nВы: " + richTextBox2.Text;
-                richTextBox2.Text = "";
+                string data = richTextBox2.Text;
+                send("#newmsg&" + data);
+                richTextBox2.Text = string.Empty;
             }
-            catch
-            {
-                MessageBox.Show("Упс, отправка неудалась, возможно пользователь не в сети");
-            }
+            catch { MessageBox.Show("Ошибка при отправке сообщения!"); }
         }
 
         private void button4_Click(object sender, EventArgs e)

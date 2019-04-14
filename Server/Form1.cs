@@ -16,107 +16,53 @@ namespace Server
 {
     public partial class Form1 : Form
     {
-        TcpClient client, client1;        
-        string messag=null, messag1=null;
+        private const string _serverHost = "localhost";
+        private const int _serverPort = 11000;
+        private static Thread _serverThread;
 
         public Form1()
         {
             InitializeComponent();
+            _serverThread = new Thread(startServer);
+            _serverThread.IsBackground = true;
+            _serverThread.Start();
         }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (fontDialog1.ShowDialog() == DialogResult.OK)
-            {
-                richTextBox1.Font = fontDialog1.Font;
-                richTextBox2.Font = fontDialog1.Font;
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
-            {
-                richTextBox1.ForeColor = colorDialog1.Color;
-                richTextBox2.ForeColor = colorDialog1.Color;
-            }
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            string message = richTextBox2.Text;            
-            SendMessage(message, writer);
-            SendMessage(message, writer1);
-            Console.ReadLine();
-            richTextBox1.Text += "\nВы: " + richTextBox2.Text;
-            richTextBox2.Text = "";
-        }
+        
         private void button4_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        StreamReader reader, reader1;
-        StreamWriter writer, writer1;
-        private void SendMessage(string message, StreamWriter writer)
-        {            
-            //buffer = new char[1024];
-            writer.WriteLine(message);
-            writer.Flush();
-            messag = null;
-            messag1 = null;
-        }
-        char[] buffer = new char[1024];
-        char[] buffer1 = new char[1024];
-        private void Receive()
+        public void startServer()
         {
-            //int result = reader.Read(buffer, 0, 1024);
-            //int resutl = reader1.Read(buffer1, 0, 1024);     
-            try
-            {
-                messag = reader.ReadLine();
-            }
-            catch { }
-            try
-            {
-                messag1 = reader1.ReadLine();
-            }
-            catch { }
-            //messag1 = new string(buffer1);
-            if (messag != null)
-                SendMessage(messag, writer1);
-            if (messag1 != null)
-                SendMessage(messag1, writer);            
-        }
-        private async void ReceiveText()
-        {
+            IPHostEntry ipHost = Dns.GetHostEntry(_serverHost);
+            IPAddress ipAddress = ipHost.AddressList[0];
+            IPEndPoint ipEndPoint = new IPEndPoint(ipAddress, _serverPort);
+            Socket socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            socket.Bind(ipEndPoint);
+            socket.Listen(1000);
+            richTextBox1.Text = "Server has been started on IP:" + ipEndPoint + "\n";
+            
             while (true)
             {
-                await Task.Run(() => Receive());
+                try
+                {
+                    Socket user = socket.Accept();
+                    Server.NewClient(user);
+                    richTextBox1.AppendText(Server.newClientConn + "\n");
+                    //richTextBox1.AppendText(Server.newClientDisConn);
+                }
+                catch
+                {
+
+                }
             }
-        }
-        private void button3_Click(object sender, EventArgs e)
-        {
-            TcpListener listener = new TcpListener(IPAddress.Any, 11000);
-            listener.Start();
-            client = listener.AcceptTcpClient();
-            client1 = listener.AcceptTcpClient();
-            if (client.Connected && client1.Connected)
-            {
-                reader = new StreamReader(client.GetStream());
-                reader1 = new StreamReader(client1.GetStream());
-                writer = new StreamWriter(client.GetStream());
-                writer1 = new StreamWriter(client1.GetStream());
-                client.GetStream().ReadTimeout = 50;
-                client1.GetStream().ReadTimeout = 50;
-            }
-            SendMessage("Соединение установлено!", writer);
-            SendMessage("Соединение установлено!", writer1);
-            ReceiveText();
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
     }
 }

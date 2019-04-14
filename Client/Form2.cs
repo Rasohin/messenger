@@ -19,13 +19,14 @@ namespace Client
 
         private void buttonConn_Click(object sender, EventArgs e)
         {
-            ConnectionServer.servername = textBox1.Text;
+            ConnectionServer.servername = textServerName.Text;
+            ConnectionServer.newusername = textUserName.Text;
             Close();
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            textBox1.Text = ConnectionServer.servername;
+            textServerName.Text = ConnectionServer.servername;
         }
     }
 }

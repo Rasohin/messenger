@@ -9,5 +9,6 @@ namespace Client
     static class ConnectionServer
     {
         public static string servername = "localhost";
+        public static string newusername;
     }
 }
