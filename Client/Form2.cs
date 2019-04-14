@@ -16,7 +16,7 @@ namespace Client
         {
             InitializeComponent();
         }
-
+        
         private void buttonConn_Click(object sender, EventArgs e)
         {
             ConnectionServer.servername = textServerName.Text;

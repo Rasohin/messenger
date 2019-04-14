@@ -1,3 +1,8 @@
 
 .vs/Server/v15/Server/sqlite3/storage.ide-shm
 .vs/Server/v15/Server/sqlite3/storage.ide-wal
+*.user
+*.cache
+*.suo
+/.vs/Server/v16/Server/sqlite3
+/.vs

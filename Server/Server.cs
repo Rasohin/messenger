@@ -9,7 +9,9 @@ namespace Server
 {
     public static class Server
     {
+        //публичное поле - очень плохо, когда поле оно всегда private
         public static List<Client> Clients = new List<Client>();
+        //статические поля лучше никогда не использовать
         public static string newClientConn;
         public static string newClientDisConn;
 
@@ -21,6 +23,7 @@ namespace Server
                 Clients.Add(newClient);
                 newClientConn = "New client connected: " + handle.RemoteEndPoint;
             }
+            //пустой catch очень плохо
             catch
             {
 
@@ -50,6 +53,7 @@ namespace Server
                     Clients[i].UpdateChat();
                 }
             }
+            //пустой catch очень плохо
             catch
             {
 

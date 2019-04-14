@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+ //лучше убирать лишние usingи
 namespace Server
 {
     public static class MessengerController
     {
         private const int _maxMessage = 100;
         public static List<message> Chat = new List<message>();
+        //структуры надо называть с большой буквы
         public struct message
         {
             public string userName;
@@ -20,7 +21,7 @@ namespace Server
                 data = msg;
             }
         }
-
+        //статический метод - очень плохо
         public static void ClearChat()
         {
             Chat.Clear();
@@ -37,6 +38,7 @@ namespace Server
                 Chat.Add(newMessage);
                 Server.UpdateAllChats();
             }
+            //пустой catch плохо
             catch
             {
 
@@ -52,6 +54,7 @@ namespace Server
                 if (countMessages <= 0) return string.Empty;
                 for (int i = 0; i < countMessages; i++)
                 {
+                   
                     data += String.Format("{0}~{1}|", Chat[i].userName, Chat[i].data);
                 }
                 return data;

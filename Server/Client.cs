@@ -5,26 +5,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Threading;
-
+  //убрать лишние usingи
 namespace Server
 {
+    //такой класс необходимо наследовать от интерфейса IDisposable  и реализовывать метод Dispose в котором закрывать все потоки и сокеты
     public class Client
     {
+        //такие поля как Socket и Thread лучше делать readobly так как они инициализируются и меняют значения только в конструкторе
         private string _userName;
         private Socket _handler;
         private Thread _userThread;
         public Client(Socket socket)
         {
             _handler = socket;
+              //не используйте Thread для многотопочности, лучше используйте Task
             _userThread = new Thread(listner);
             _userThread.IsBackground = true;
             _userThread.Start();
         }
+        //используйте сокращённый синтаксис свойств public string UserName { get; }
         public string UserName
         {
             get { return _userName; }
         }
-
+        //методы всегда лучше называть с большой буквы
         private void listner()
         {
             while (true)
@@ -36,13 +40,14 @@ namespace Server
                     string data = Encoding.UTF8.GetString(buffer, 0, bytesRec);
                     handleCommand(data);
                 }
+                //пустой блок catch не очень хорошо
                 catch
                 {
                     Server.EndClient(this); return;
                 }
             }
         }
-
+        //почему метод public?
         public void End()
         {
             try
@@ -59,6 +64,7 @@ namespace Server
 
             }
         }
+        //лучше метод назвать HandleCommand
         private void handleCommand(string data)
         {
             if (data.Contains("#setname"))
@@ -78,6 +84,7 @@ namespace Server
         {
             Send(MessengerController.GetChat());
         }
+        //архитектура приложения на статических методах - очень плохо
         public void Send(string command)
         {
             try

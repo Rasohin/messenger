@@ -12,13 +12,16 @@ using System.Net.Sockets;
 using System.Threading;
 using System.IO;
 using System.IO.Compression;
-
+ //убрать лишние usinggи
 namespace Client
 {
     public partial class Form1 : Form
     {
+        //делегаты лучше называть с большой буквы
         private delegate void printer(string data);
         private delegate void cleaner();
+        //приватные поля лучше называть соотвественно приватным полям илои в этом случае использовать события и лучше ихз называть в другой грамматической структуре например
+        //public event Printer Printed;
         printer Printer;
         cleaner Cleaner;
         private Socket _serverSocket;
@@ -29,6 +32,7 @@ namespace Client
         public Form1()
         {
             InitializeComponent();
+                //объекты делегатов - зло
             Printer = new printer(print);
             Cleaner = new cleaner(clearChat);
             connect();
@@ -36,7 +40,7 @@ namespace Client
             _clientThread.IsBackground = true;
             _clientThread.Start();
         }
-
+        //методы лучше называть с большой буквы
         private void listner()
         {
             while (_serverSocket.Connected)
@@ -51,6 +55,7 @@ namespace Client
                 }
             }
         }
+        //методы надо называть с большой буквы
         private void connect()
         {
             try
@@ -83,9 +88,11 @@ namespace Client
                     if (string.IsNullOrEmpty(messages[i])) continue;
                     print(String.Format("[{0}]:{1}.", messages[i].Split('~')[0], messages[i].Split('~')[1]));
                 }
+                //пустой catch - плохо
                 catch { continue; }
             }
         }
+        //методы лучше называть с большой буквы
         private void send(string data)
         {
             try
@@ -95,6 +102,7 @@ namespace Client
             }
             catch { print("Связь с сервером прервалась..."); }
         }
+        //методы лучше называть с большой буквы и очень плохо что название совпадает с полем класса
         private void print(string msg)
         {
             if (this.InvokeRequired)
@@ -127,7 +135,7 @@ namespace Client
             }
         }
         
-
+        //лишний метод
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -152,7 +160,7 @@ namespace Client
         {
             sendMessage();
         }
-
+        //методы лучше называть с большой буквы
         private void sendMessage()
         {
             try

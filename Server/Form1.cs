@@ -23,6 +23,7 @@ namespace Server
         public Form1()
         {
             InitializeComponent();
+              //не используйте Thread для работы с многопоточностью, лучше используйте Task
             _serverThread = new Thread(startServer);
             _serverThread.IsBackground = true;
             _serverThread.Start();
@@ -40,6 +41,7 @@ namespace Server
             IPEndPoint ipEndPoint = new IPEndPoint(ipAddress, _serverPort);
             Socket socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             socket.Bind(ipEndPoint);
+             //лучше не слушать хорошо известные порты то есть порты с номерами меньшими 16535
             socket.Listen(1000);
             richTextBox1.Text = "Server has been started on IP:" + ipEndPoint + "\n";
             
@@ -59,7 +61,7 @@ namespace Server
             }
 
         }
-
+        //абсолютно лишний метод
         private void Form1_Load(object sender, EventArgs e)
         {
             
